@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import styles from "./MainImage.module.css";
+import { CharacterMarker } from "../CharacterMarker/CharacterMarker";
 
 const MainImage = () => {
   const [position, setPosition] = useState("");
@@ -16,8 +17,8 @@ const MainImage = () => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       console.log(`Container top-left corner: (${rect.x}, ${rect.y})`);
-      setContainerX(rect.x);
-      setContainerY(rect.y);
+      setContainerX(parseInt(rect.x));
+      setContainerY(parseInt(rect.y));
     }
   }, []);
 
@@ -25,14 +26,14 @@ const MainImage = () => {
     if (imgRef.current) {
       const rect = imgRef.current.getBoundingClientRect();
       console.log(`Image top-left corner: (${rect.x}, ${rect.y})`);
-      setImageX(rect.x);
-      setImageY(rect.y);
+      setImageX(parseInt(rect.x));
+      setImageY(parseInt(rect.y));
     }
   }
 
   function handleImageClick(e) {
-    const posX = e.clientX;
-    const posY = e.clientY;
+    const posX = parseInt(e.clientX);
+    const posY = parseInt(e.clientY);
 
     setPosition(
       `viewport: (${posX}, ${posY}), image: (${posX - imageX}, ${
@@ -60,10 +61,12 @@ const MainImage = () => {
         className={styles.selectedCircle}
         style={
           circleX !== -1 && circleY !== -1
-            ? { left: circleX, top: circleY, display: "block" }
+            ? { left: `${circleX}px`, top: `${circleY}px`, display: "block" }
             : { display: "none" }
         }
+        onClick={handleImageClick}
       ></div>
+      <CharacterMarker name="naruto" posX={500} posY={50} />
     </div>
   );
 };
