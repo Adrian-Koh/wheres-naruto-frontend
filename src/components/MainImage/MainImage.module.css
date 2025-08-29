@@ -1,11 +1,29 @@
 .mainImage {
-  height: 100%;
+  height: 90%;
   width: auto;
 }
 
 .container {
   height: 95vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.position {
+  margin-top: 10px;
+}
+
+.selectedCircle {
+  position: absolute;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+  background-color: rgba(50, 192, 202, 0.5);
 }
