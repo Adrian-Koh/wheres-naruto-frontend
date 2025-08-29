@@ -1,0 +1,11 @@
+.mainImage {
+  height: 100%;
+  width: auto;
+}
+
+.container {
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
