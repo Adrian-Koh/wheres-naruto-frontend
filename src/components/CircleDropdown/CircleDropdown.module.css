@@ -15,6 +15,11 @@
   margin-top: 5px;
   padding: 0;
   list-style-type: none;
+  animation-name: expand;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  transform-origin: top;
 }
 
 .character {
@@ -24,4 +29,16 @@
   border-radius: 5px;
   margin-bottom: 5px;
   box-shadow: 2px 2px 2px 3px white;
+}
+
+@keyframes expand {
+  0% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(0.7);
+  }
+  100% {
+    transform: scaleY(1);
+  }
 }
