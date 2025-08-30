@@ -2,7 +2,8 @@ import { useContext } from "react";
 import styles from "./CircleDropdown.module.css";
 import { CircleContext } from "../MainImage/MainImage";
 
-const CircleDropdown = ({ characters, handleClick }) => {
+const CIRCLE_RADIUS = 25;
+const CircleDropdown = ({ characters, handleClick, handleCharacterClick }) => {
   const { posX, posY } = useContext(CircleContext);
 
   return (
@@ -10,17 +11,24 @@ const CircleDropdown = ({ characters, handleClick }) => {
       className={styles.container}
       style={
         posX !== -1 && posY !== -1
-          ? { left: `${posX}px`, top: `${posY}px`, display: "block" }
+          ? {
+              left: `${posX - CIRCLE_RADIUS}px`,
+              top: `${posY - CIRCLE_RADIUS}px`,
+              display: "block",
+            }
           : { display: "none" }
       }
-      onClick={handleClick}
     >
-      <div className={styles.selectedCircle}></div>
+      <div className={styles.selectedCircle} onClick={handleClick}></div>
       <div className={styles.dropdown}>
         {characters && characters.length > 0 ? (
           <ul className={styles.dropdownList}>
             {characters.map((character) => (
-              <li key={character} className={styles.character}>
+              <li
+                key={character}
+                className={styles.character}
+                onClick={(e) => handleCharacterClick(e, character)}
+              >
                 {character}
               </li>
             ))}

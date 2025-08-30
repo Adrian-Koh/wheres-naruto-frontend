@@ -2,7 +2,7 @@ import { useRef, useState, useEffect, createContext } from "react";
 import styles from "./MainImage.module.css";
 import { CharacterMarker } from "../CharacterMarker/CharacterMarker";
 import { CircleDropdown } from "../CircleDropdown/CircleDropdown";
-import { getCharactersList } from "./api";
+import { getCharactersList, registerImageClick } from "./api";
 
 const CircleContext = createContext(null);
 const MainImage = () => {
@@ -42,11 +42,25 @@ const MainImage = () => {
       })`
     );
 
-    const CIRCLE_RADIUS = 25;
     setCirclePos({
-      x: posX - containerPos.x - CIRCLE_RADIUS,
-      y: posY - containerPos.y - CIRCLE_RADIUS,
+      x: posX - containerPos.x,
+      y: posY - containerPos.y,
     });
+  }
+
+  function handleCharacterClick(e, character) {
+    const handleCharacterClickCb = async () => {
+      console.log(
+        `Clicked: X: ${circlePos.x - imagePos.x}, Y:${circlePos.y - imagePos.y}`
+      );
+
+      await registerImageClick(
+        character,
+        circlePos.x - imagePos.x,
+        circlePos.y - imagePos.y
+      );
+    };
+    handleCharacterClickCb();
   }
 
   return (
@@ -70,6 +84,7 @@ const MainImage = () => {
         <CircleDropdown
           characters={characters}
           handleClick={handleImageClick}
+          handleCharacterClick={handleCharacterClick}
         />
       </CircleContext>
       <CharacterMarker name="naruto" posX={500} posY={50} />
