@@ -1,9 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import styles from "./CircleDropdown.module.css";
 import { CircleContext } from "../MainImage/MainImage";
 
 const CircleDropdown = ({ characters, handleClick }) => {
-  //const [characters, setCharacters] = useState([]);
   const { posX, posY } = useContext(CircleContext);
 
   return (
@@ -21,7 +20,9 @@ const CircleDropdown = ({ characters, handleClick }) => {
         {characters && characters.length > 0 ? (
           <ul className={styles.dropdownList}>
             {characters.map((character) => (
-              <li className={styles.character}>{character}</li>
+              <li key={character} className={styles.character}>
+                {character}
+              </li>
             ))}
           </ul>
         ) : null}
