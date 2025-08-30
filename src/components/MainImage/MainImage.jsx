@@ -1,7 +1,9 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, createContext } from "react";
 import styles from "./MainImage.module.css";
 import { CharacterMarker } from "../CharacterMarker/CharacterMarker";
+import { CircleDropdown } from "../CircleDropdown/CircleDropdown";
 
+const CircleContext = createContext(null);
 const MainImage = () => {
   const [position, setPosition] = useState("");
   const [containerX, setContainerX] = useState(-1);
@@ -57,18 +59,15 @@ const MainImage = () => {
         ref={imgRef}
         onLoad={initializeImageCoords}
       />
-      <div
-        className={styles.selectedCircle}
-        style={
-          circleX !== -1 && circleY !== -1
-            ? { left: `${circleX}px`, top: `${circleY}px`, display: "block" }
-            : { display: "none" }
-        }
-        onClick={handleImageClick}
-      ></div>
+      <CircleContext value={{ posX: circleX, posY: circleY }}>
+        <CircleDropdown
+          characters={["Naruto", "Obito", "Sasuke"]}
+          handleClick={handleImageClick}
+        />
+      </CircleContext>
       <CharacterMarker name="naruto" posX={500} posY={50} />
     </div>
   );
 };
 
-export { MainImage };
+export { MainImage, CircleContext };
