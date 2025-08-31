@@ -11,7 +11,6 @@ export const getCharactersList = async () => {
   const token = parsed.token;
 
   localStorage.setItem("token", token);
-  console.log("received from backend: " + JSON.stringify(parsed));
 
   return parsed.characters;
 };

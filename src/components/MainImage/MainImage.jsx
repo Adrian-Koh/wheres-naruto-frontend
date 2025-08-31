@@ -63,6 +63,8 @@ const MainImage = () => {
       if (result.remainingCharacters) {
         setCharacters(result.remainingCharacters);
       }
+
+      setCirclePos({ x: -1, y: -1 });
     };
     handleCharacterClickCb();
   }
