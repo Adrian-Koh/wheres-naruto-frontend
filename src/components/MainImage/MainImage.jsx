@@ -54,11 +54,15 @@ const MainImage = () => {
         `Clicked: X: ${circlePos.x - imagePos.x}, Y:${circlePos.y - imagePos.y}`
       );
 
-      await registerImageClick(
+      const result = await registerImageClick(
         character,
         circlePos.x - imagePos.x,
         circlePos.y - imagePos.y
       );
+
+      if (result.remainingCharacters) {
+        setCharacters(result.remainingCharacters);
+      }
     };
     handleCharacterClickCb();
   }

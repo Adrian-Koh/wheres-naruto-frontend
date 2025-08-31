@@ -41,8 +41,19 @@ export const registerImageClick = async (character, x, y) => {
     "parsed response in registerImageClick: " + JSON.stringify(parsed)
   );
 
-  const token = parsed.token;
-  localStorage.setItem("token", token);
-  const decoded = jwtDecode(token);
-  console.log("Decoded token: " + JSON.stringify(decoded));
+  const result = parsed.result;
+  if (result === "correct") {
+    const token = parsed.token;
+    localStorage.setItem("token", token);
+    const decoded = jwtDecode(token);
+    console.log("Decoded token: " + JSON.stringify(decoded));
+    return {
+      message: "character chosen was correct.",
+      remainingCharacters: decoded.remainingCharacters,
+    };
+  } else if (result === "false") {
+    return { message: parsed.message };
+  } else if (result === "complete") {
+    return { message: parsed.message };
+  }
 };

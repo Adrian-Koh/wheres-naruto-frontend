@@ -2,6 +2,10 @@
   position: absolute;
 }
 
+.circleContainer {
+  width: 100%;
+}
+
 .selectedCircle {
   border-radius: 50%;
   width: 50px;
