@@ -42,6 +42,7 @@ export const registerImageClick = async (character, x, y) => {
       complete: false,
       message: "character chosen was correct.",
       remainingCharacters: decoded.remainingCharacters,
+      characterPosition: parsed.characterPosition,
     };
   } else if (result === "false") {
     return { complete: false, message: parsed.message };
@@ -55,6 +56,7 @@ export const registerImageClick = async (character, x, y) => {
       message: parsed.message,
       isHighScore: parsed.isHighScore,
       highScores: parsed.highScores,
+      characterPosition: parsed.characterPosition,
     };
   }
 };

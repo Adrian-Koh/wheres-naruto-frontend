@@ -15,6 +15,7 @@ const MainImage = () => {
   const [displayBoard, setDisplayBoard] = useState(false);
   const [askForName, setAskForName] = useState(false);
   const [highScores, setHighScores] = useState([]);
+  const [identifiedCharacters, setIdentifiedCharacters] = useState([]);
 
   const containerRef = useRef(null);
   const imgRef = useRef(null);
@@ -22,7 +23,6 @@ const MainImage = () => {
   useEffect(() => {
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
-      console.log(`Container top-left corner: (${rect.x}, ${rect.y})`);
       setContainerPos({ x: parseInt(rect.x), y: parseInt(rect.y) });
     }
     getCharactersList().then((characterList) => setCharacters(characterList));
@@ -31,7 +31,6 @@ const MainImage = () => {
   function initializeImageCoords() {
     if (imgRef.current) {
       const rect = imgRef.current.getBoundingClientRect();
-      console.log(`Image top-left corner: (${rect.x}, ${rect.y})`);
       setImagePos({ x: parseInt(rect.x), y: parseInt(rect.y) });
     }
   }
@@ -54,16 +53,17 @@ const MainImage = () => {
 
   function handleCharacterClick(e, character) {
     const handleCharacterClickCb = async () => {
-      console.log(
-        `Clicked: X: ${circlePos.x - imagePos.x}, Y:${circlePos.y - imagePos.y}`
-      );
-
       const result = await registerImageClick(
         character,
         circlePos.x - imagePos.x,
         circlePos.y - imagePos.y
       );
+      // set character marker
 
+      setIdentifiedCharacters([
+        ...identifiedCharacters,
+        result.characterPosition,
+      ]);
       if (result.complete) {
         // TODO: have separate cases for top 10 and no top 10
         setAskForName(result.isHighScore);
@@ -105,7 +105,17 @@ const MainImage = () => {
           handleCharacterClick={handleCharacterClick}
         />
       </CircleContext>
-      <CharacterMarker name="naruto" posX={500} posY={50} />
+      {identifiedCharacters && identifiedCharacters.length > 0
+        ? identifiedCharacters.map((character) => {
+            return (
+              <CharacterMarker
+                name={character.name}
+                posX={character.x + imagePos.x}
+                posY={character.y + imagePos.y}
+              />
+            );
+          })
+        : null}
       {displayBoard ? (
         <HighScores
           highScores={highScores}
