@@ -1,17 +1,19 @@
 .container {
   position: fixed;
   top: 5%;
-  left: 40%;
+  left: 35%;
+  bottom: 5%;
+  overflow-y: scroll;
   background-color: white;
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 2px 2px 5px 5px rgb(20, 185, 197);
-  width: 250px;
+  box-shadow: 2px 2px 5px 5px rgb(236, 147, 14);
+  width: 325px;
 }
 
 .scoreboard {
   display: grid;
-  grid-template-columns: 50px 100px 100px;
+  grid-template-columns: 75px 150px 100px;
   justify-content: center;
   justify-items: center;
   gap: 5px;
@@ -21,6 +23,7 @@
 .scoreMessage {
   width: 100%;
   text-align: center;
+  margin: 10px 0;
 }
 
 .header {
@@ -50,23 +53,22 @@
 
 .closeBtn {
   width: min-content;
-  padding: 5px;
-  margin-bottom: 5px;
+  padding: 2px 5px;
+  font-size: 1.2rem;
   border: solid 2px black;
   border-radius: 5px;
 }
 
 .nameInput {
-  width: 100%;
+  width: 180px;
 }
 
 .form {
   display: flex;
-  flex-direction: column;
   gap: 5px;
 }
 
 .submit {
   width: min-content;
-  align-self: last baseline;
+  margin-left: auto;
 }

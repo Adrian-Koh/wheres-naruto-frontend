@@ -21,16 +21,18 @@ const HighScores = ({
     };
 
     submitHighScoreCb();
-    // TODO: what if user does not submit name?
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.titleBar}>
         <h2 className={styles.scoreboardTitle}>High Scores</h2>
-        <div className={styles.closeBtn} onClick={() => setDisplayBoard(false)}>
-          X
-        </div>
+        <button
+          className={styles.closeBtn}
+          onClick={() => setDisplayBoard(false)}
+        >
+          &#x274C;
+        </button>
       </div>
 
       {highScores && highScores.length > 0 ? (
@@ -46,30 +48,38 @@ const HighScores = ({
                 ) + 1}
               </div>
               <div className={styles.name}>{highScore.playername}</div>
-              <div className={styles.score}>{highScore.scoretime / 1000}</div>
+              <div className={styles.score}>
+                {(highScore.scoretime / 1000).toFixed(3)}
+              </div>
             </>
           ))}
         </div>
       ) : null}
       {askForName ? (
-        <form className={styles.form} onSubmit={onSubmit}>
+        <>
           <h3 className={styles.scoreMessage}>
             Congratulations! Your score of {playerScore} seconds is one of the
             top scores of the game. Enter your name to be on the Wall of Fame!
           </h3>
-          <label htmlFor="name">
-            Name:{" "}
-            <input
-              type="text"
-              id="name"
-              value={playername}
-              className={styles.nameInput}
-              onChange={(e) => setPlayername(e.target.value)}
-            ></input>
-          </label>
-          <input className={styles.submit} type="submit" />
-        </form>
-      ) : null}
+          <form className={styles.form} onSubmit={onSubmit}>
+            <label htmlFor="name">
+              Name:{" "}
+              <input
+                type="text"
+                id="name"
+                value={playername}
+                className={styles.nameInput}
+                onChange={(e) => setPlayername(e.target.value)}
+              ></input>
+            </label>
+            <input className={styles.submit} type="submit" />
+          </form>
+        </>
+      ) : (
+        <h3 className={styles.scoreMessage}>
+          You completed the game in {playerScore}s.
+        </h3>
+      )}
     </div>
   );
 };
