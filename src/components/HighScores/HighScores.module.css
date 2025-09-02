@@ -1,12 +1,26 @@
 .container {
   position: fixed;
-  top: 50px;
-  left: 50px;
+  top: 5%;
+  left: 40%;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px 5px rgb(20, 185, 197);
+  width: 250px;
 }
 
 .scoreboard {
   display: grid;
-  grid-template-columns: 200px 200px;
+  grid-template-columns: 100px 100px;
+  justify-content: center;
+  justify-items: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.scoreMessage {
+  width: 100%;
+  text-align: center;
 }
 
 .header {
@@ -19,4 +33,40 @@
   border: solid 2px black;
   padding: 3px;
   border-radius: 5px;
+}
+
+.titleBar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.scoreboardTitle {
+  margin: 0 10px;
+  text-align: center;
+  width: 100%;
+}
+
+.closeBtn {
+  width: min-content;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: solid 2px black;
+  border-radius: 5px;
+}
+
+.nameInput {
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.submit {
+  width: min-content;
+  align-self: last baseline;
 }

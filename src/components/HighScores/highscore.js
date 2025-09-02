@@ -9,10 +9,15 @@ export const submitHighScore = async (playername) => {
     body: JSON.stringify({ playername }),
   });
   const parsed = await response.json();
-
   if (!response.ok) {
     throw new Error(parsed.message);
   }
 
-  return parsed;
+  // get high scores
+  const getHighScoresResponse = await fetch(API_LINK);
+  const getHighScoresParsed = await getHighScoresResponse.json();
+  if (!getHighScoresResponse.ok) {
+    throw new Error(getHighScoresParsed.message);
+  }
+  return getHighScoresParsed.highScores;
 };

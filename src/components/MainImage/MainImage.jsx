@@ -69,6 +69,7 @@ const MainImage = () => {
         setAskForName(result.isHighScore);
         setHighScores(result.highScores);
         setDisplayBoard(true);
+        setCharacters([]);
       } else {
         if (result.remainingCharacters) {
           setCharacters(result.remainingCharacters);
@@ -106,7 +107,13 @@ const MainImage = () => {
       </CircleContext>
       <CharacterMarker name="naruto" posX={500} posY={50} />
       {displayBoard ? (
-        <HighScores highScores={highScores} askForName={askForName} />
+        <HighScores
+          highScores={highScores}
+          setHighScores={setHighScores}
+          askForName={askForName}
+          setDisplayBoard={setDisplayBoard}
+          setAskForName={setAskForName}
+        />
       ) : null}
     </div>
   );
