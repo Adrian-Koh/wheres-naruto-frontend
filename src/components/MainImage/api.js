@@ -9,8 +9,8 @@ export const getCharactersList = async () => {
   if (!response.ok) {
     throw new Error(parsed.message);
   }
-  const token = parsed.token;
 
+  const token = parsed.token;
   localStorage.setItem("token", token);
 
   return parsed.characters;
@@ -37,7 +37,7 @@ export const registerImageClick = async (character, x, y) => {
     const token = parsed.token;
     localStorage.setItem("token", token);
     const decoded = jwtDecode(token);
-    console.log("Decoded token: " + JSON.stringify(decoded));
+
     return {
       complete: false,
       message: "character chosen was correct.",
@@ -48,13 +48,14 @@ export const registerImageClick = async (character, x, y) => {
     return { complete: false, message: parsed.message };
   } else if (result === "complete") {
     if (parsed.isHighScore) {
-      // save token
+      // save token to submit name later on
       localStorage.setItem("token", parsed.token);
     }
     return {
       complete: true,
       message: parsed.message,
       isHighScore: parsed.isHighScore,
+      score: parsed.score,
       highScores: parsed.highScores,
       characterPosition: parsed.characterPosition,
     };

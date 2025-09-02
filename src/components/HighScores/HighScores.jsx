@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./HighScores.module.css";
 import { submitHighScore } from "./highscore";
 const HighScores = ({
+  playerScore,
   highScores,
   askForName = false,
   setDisplayBoard,
@@ -53,9 +54,8 @@ const HighScores = ({
       {askForName ? (
         <form className={styles.form} onSubmit={onSubmit}>
           <h3 className={styles.scoreMessage}>
-            {/* TODO:add score */}
-            Congratulations! Your score of {} is one of the top scores of the
-            game. Enter your name to be on the Wall of Fame!
+            Congratulations! Your score of {playerScore} seconds is one of the
+            top scores of the game. Enter your name to be on the Wall of Fame!
           </h3>
           <label htmlFor="name">
             Name:{" "}

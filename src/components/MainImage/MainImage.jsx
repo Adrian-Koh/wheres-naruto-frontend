@@ -14,6 +14,7 @@ const MainImage = () => {
   const [characters, setCharacters] = useState([]);
   const [displayBoard, setDisplayBoard] = useState(false);
   const [askForName, setAskForName] = useState(false);
+  const [playerScore, setPlayerScore] = useState(-1);
   const [highScores, setHighScores] = useState([]);
   const [identifiedCharacters, setIdentifiedCharacters] = useState([]);
 
@@ -58,15 +59,16 @@ const MainImage = () => {
         circlePos.x - imagePos.x,
         circlePos.y - imagePos.y
       );
-      // set character marker
 
       setIdentifiedCharacters([
         ...identifiedCharacters,
         result.characterPosition,
       ]);
+
       if (result.complete) {
         // TODO: have separate cases for top 10 and no top 10
         setAskForName(result.isHighScore);
+        setPlayerScore(result.score);
         setHighScores(result.highScores);
         setDisplayBoard(true);
         setCharacters([]);
@@ -118,6 +120,7 @@ const MainImage = () => {
         : null}
       {displayBoard ? (
         <HighScores
+          playerScore={playerScore}
           highScores={highScores}
           setHighScores={setHighScores}
           askForName={askForName}
