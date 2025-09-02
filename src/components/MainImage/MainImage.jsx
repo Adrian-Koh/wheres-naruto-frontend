@@ -110,8 +110,8 @@ const MainImage = () => {
             return (
               <CharacterMarker
                 name={character.name}
-                posX={character.x + imagePos.x}
-                posY={character.y + imagePos.y}
+                posX={character.x - containerPos.x + imagePos.x}
+                posY={character.y - containerPos.y + imagePos.y}
               />
             );
           })
