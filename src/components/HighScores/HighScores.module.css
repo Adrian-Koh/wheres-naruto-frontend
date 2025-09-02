@@ -1,0 +1,22 @@
+.container {
+  position: fixed;
+  top: 50px;
+  left: 50px;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: 200px 200px;
+}
+
+.header {
+  font-weight: 600;
+}
+
+.header,
+.playername,
+.scoretime {
+  border: solid 2px black;
+  padding: 3px;
+  border-radius: 5px;
+}

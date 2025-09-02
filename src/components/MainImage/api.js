@@ -1,5 +1,6 @@
 const API_LINK = "http://localhost:8000/";
 import { jwtDecode } from "jwt-decode";
+import { getTokenHeader } from "../token/token";
 
 export const getCharactersList = async () => {
   const response = await fetch(API_LINK);
@@ -13,15 +14,6 @@ export const getCharactersList = async () => {
   localStorage.setItem("token", token);
 
   return parsed.characters;
-};
-
-const getTokenHeader = () => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    throw new Error("Token not found.");
-  }
-  return { authorization: `Bearer ${token}` };
 };
 
 export const registerImageClick = async (character, x, y) => {
@@ -47,12 +39,22 @@ export const registerImageClick = async (character, x, y) => {
     const decoded = jwtDecode(token);
     console.log("Decoded token: " + JSON.stringify(decoded));
     return {
+      complete: false,
       message: "character chosen was correct.",
       remainingCharacters: decoded.remainingCharacters,
     };
   } else if (result === "false") {
-    return { message: parsed.message };
+    return { complete: false, message: parsed.message };
   } else if (result === "complete") {
-    return { message: parsed.message };
+    if (parsed.isHighScore) {
+      // save token
+      localStorage.setItem("token", parsed.token);
+    }
+    return {
+      complete: true,
+      message: parsed.message,
+      isHighScore: parsed.isHighScore,
+      highScores: parsed.highScores,
+    };
   }
 };

@@ -2,6 +2,7 @@ import { useRef, useState, useEffect, createContext } from "react";
 import styles from "./MainImage.module.css";
 import { CharacterMarker } from "../CharacterMarker/CharacterMarker";
 import { CircleDropdown } from "../CircleDropdown/CircleDropdown";
+import { HighScores } from "../HighScores/HighScores";
 import { getCharactersList, registerImageClick } from "./api";
 
 const CircleContext = createContext(null);
@@ -11,6 +12,9 @@ const MainImage = () => {
   const [imagePos, setImagePos] = useState(null);
   const [circlePos, setCirclePos] = useState(null);
   const [characters, setCharacters] = useState([]);
+  const [displayBoard, setDisplayBoard] = useState(false);
+  const [askForName, setAskForName] = useState(false);
+  const [highScores, setHighScores] = useState([]);
 
   const containerRef = useRef(null);
   const imgRef = useRef(null);
@@ -60,8 +64,15 @@ const MainImage = () => {
         circlePos.y - imagePos.y
       );
 
-      if (result.remainingCharacters) {
-        setCharacters(result.remainingCharacters);
+      if (result.complete) {
+        // TODO: have separate cases for top 10 and no top 10
+        setAskForName(result.isHighScore);
+        setHighScores(result.highScores);
+        setDisplayBoard(true);
+      } else {
+        if (result.remainingCharacters) {
+          setCharacters(result.remainingCharacters);
+        }
       }
 
       setCirclePos({ x: -1, y: -1 });
@@ -94,6 +105,9 @@ const MainImage = () => {
         />
       </CircleContext>
       <CharacterMarker name="naruto" posX={500} posY={50} />
+      {displayBoard ? (
+        <HighScores highScores={highScores} askForName={askForName} />
+      ) : null}
     </div>
   );
 };
