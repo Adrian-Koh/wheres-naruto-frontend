@@ -34,10 +34,16 @@ const HighScores = ({
 
       {highScores && highScores.length > 0 ? (
         <div className={styles.scoreboard}>
+          <div className={styles.header}>Rank</div>
           <div className={styles.header}>Player name</div>
           <div className={styles.header}>Time (s)</div>
           {highScores.map((highScore) => (
             <>
+              <div className={styles.standing}>
+                {highScores.findIndex(
+                  (score) => score.playername === highScore.playername
+                ) + 1}
+              </div>
               <div className={styles.name}>{highScore.playername}</div>
               <div className={styles.score}>{highScore.scoretime / 1000}</div>
             </>
