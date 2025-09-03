@@ -18,6 +18,8 @@ export const getCharactersList = async () => {
 
 export const registerImageClick = async (character, x, y) => {
   const tokenHeader = getTokenHeader();
+  console.log("sending body in registerImageClick: x=" + x + ", y=" + y);
+
   const response = await fetch(API_LINK, {
     method: "POST",
     headers: { ...tokenHeader, "Content-Type": "application/json" },
@@ -40,12 +42,11 @@ export const registerImageClick = async (character, x, y) => {
 
     return {
       complete: false,
-      message: "character chosen was correct.",
       remainingCharacters: decoded.remainingCharacters,
       characterPosition: parsed.characterPosition,
     };
   } else if (result === "false") {
-    return { complete: false, message: parsed.message };
+    return { complete: false };
   } else if (result === "complete") {
     if (parsed.isHighScore) {
       // save token to submit name later on
@@ -53,7 +54,6 @@ export const registerImageClick = async (character, x, y) => {
     }
     return {
       complete: true,
-      message: parsed.message,
       isHighScore: parsed.isHighScore,
       score: parsed.score,
       highScores: parsed.highScores,

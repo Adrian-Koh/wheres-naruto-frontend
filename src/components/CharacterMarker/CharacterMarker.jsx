@@ -1,5 +1,6 @@
 import styles from "./CharacterMarker.module.css";
-const LENGTH = 60;
+const LENGTH = 80;
+const HEIGHT = 60;
 
 const CharacterMarker = ({ name, posX, posY }) => {
   return (
@@ -7,7 +8,7 @@ const CharacterMarker = ({ name, posX, posY }) => {
       className={styles.marker}
       style={{
         left: posX - LENGTH / 2 + "px",
-        top: posY - parseInt(LENGTH * 1.5) + 5 + "px",
+        top: posY - parseInt(HEIGHT * 1.5) + 5 + "px",
       }}
     >
       <p className={styles.name}>{name}</p>

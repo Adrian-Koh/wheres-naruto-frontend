@@ -10,6 +10,7 @@ const CIRCLE_RADIUS = 25;
 const dropdownHeight = (charactersLength) => {
   return 5 + 20 * charactersLength; // margin = 5px, height of one character list item = 20px
 };
+
 const MainImage = () => {
   const [position, setPosition] = useState("");
   const [containerPos, setContainerPos] = useState(null);
@@ -37,6 +38,8 @@ const MainImage = () => {
   function initializeImageCoords() {
     if (imgRef.current) {
       const rect = imgRef.current.getBoundingClientRect();
+      console.log(`imagePos x:${rect.x}, y:${rect.y}`);
+
       setImagePos({ x: parseInt(rect.x), y: parseInt(rect.y) });
     }
   }
@@ -77,8 +80,8 @@ const MainImage = () => {
     const handleCharacterClickCb = async () => {
       const result = await registerImageClick(
         character,
-        circlePos.x - imagePos.x,
-        circlePos.y - imagePos.y
+        circlePos.x - imagePos.x + containerPos.x,
+        circlePos.y - imagePos.y + containerPos.y
       );
 
       if (result.characterPosition) {
@@ -89,16 +92,13 @@ const MainImage = () => {
       }
 
       if (result.complete) {
-        // TODO: have separate cases for top 10 and no top 10
         setAskForName(result.isHighScore);
         setPlayerScore(result.score);
         setHighScores(result.highScores);
         setDisplayBoard(true);
         setCharacters([]);
-      } else {
-        if (result.remainingCharacters) {
-          setCharacters(result.remainingCharacters);
-        }
+      } else if (result.remainingCharacters) {
+        setCharacters(result.remainingCharacters);
       }
 
       setCirclePos({ x: -1, y: -1 });
@@ -130,7 +130,7 @@ const MainImage = () => {
                     : circlePos.y,
                 flexDirection: circleFlexDirection,
                 handleClick: handleImageClick,
-                characters,
+                characters: characters,
                 handleCharacterClick: handleCharacterClick,
               }
             : {
@@ -138,7 +138,7 @@ const MainImage = () => {
                 posY: -1,
                 flexDirection: circleFlexDirection,
                 handleClick: handleImageClick,
-                characters,
+                characters: characters,
                 handleCharacterClick: handleCharacterClick,
               }
         }
