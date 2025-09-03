@@ -13,7 +13,6 @@ const CircleDropdown = () => {
     handleCharacterClick,
   } = useContext(CircleContext);
 
-  // TODO: clicking on character in row flex doesn't send correct coords
   return (
     <div
       className={styles.container}

@@ -7,6 +7,9 @@ import { getCharactersList, registerImageClick } from "./api";
 
 const CircleContext = createContext(null);
 const CIRCLE_RADIUS = 25;
+const dropdownHeight = (charactersLength) => {
+  return 5 + 20 * charactersLength; // margin = 5px, height of one character list item = 20px
+};
 const MainImage = () => {
   const [position, setPosition] = useState("");
   const [containerPos, setContainerPos] = useState(null);
@@ -48,22 +51,25 @@ const MainImage = () => {
       })`
     );
 
-    const dropdownHeight = 5 + 20 * characters.length;
-    let y;
     if (
-      posY - containerPos.y + CIRCLE_RADIUS * 2 + dropdownHeight >
+      // posY - containerPos.y to get clicked coords in viewport,
+      // + CIRCLE_RADIUS * 2 to include circle height,
+      // + dropdownHeight to include dropdown height
+      posY -
+        containerPos.y +
+        CIRCLE_RADIUS * 2 +
+        dropdownHeight(characters.length) >
       window.innerHeight
     ) {
+      // change to row flex direction if CircleDropdown height overflows
       setCircleFlexDirection("row");
-      y = posY - containerPos.y - dropdownHeight + CIRCLE_RADIUS * 2;
     } else {
       setCircleFlexDirection("column");
-      y = posY - containerPos.y;
     }
 
     setCirclePos({
       x: posX - containerPos.x,
-      y: y,
+      y: posY - containerPos.y,
     });
   }
 
@@ -116,7 +122,12 @@ const MainImage = () => {
           circlePos
             ? {
                 posX: circlePos.x,
-                posY: circlePos.y,
+                posY:
+                  circleFlexDirection === "row"
+                    ? circlePos.y -
+                      dropdownHeight(characters.length) +
+                      CIRCLE_RADIUS * 2
+                    : circlePos.y,
                 flexDirection: circleFlexDirection,
                 handleClick: handleImageClick,
                 characters,
