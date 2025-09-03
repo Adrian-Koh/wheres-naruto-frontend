@@ -3,8 +3,17 @@ import styles from "./CircleDropdown.module.css";
 import { CircleContext } from "../MainImage/MainImage";
 
 const CIRCLE_RADIUS = 25;
-const CircleDropdown = ({ characters, handleClick, handleCharacterClick }) => {
-  const { posX, posY } = useContext(CircleContext);
+const CircleDropdown = () => {
+  const {
+    posX,
+    posY,
+    flexDirection,
+    characters,
+    handleClick,
+    handleCharacterClick,
+  } = useContext(CircleContext);
+  // TODO: clicking on region to right / top of circle doesn't call handleImageClick
+  // TODO: clicking on character in row flex doesn't send correct coords
   return (
     <div
       className={styles.container}
@@ -13,12 +22,17 @@ const CircleDropdown = ({ characters, handleClick, handleCharacterClick }) => {
           ? {
               left: `${posX - CIRCLE_RADIUS}px`,
               top: `${posY - CIRCLE_RADIUS}px`,
-              display: "block",
+              display: "flex",
+              flexDirection: flexDirection,
             }
           : { display: "none" }
       }
     >
-      <div className={styles.circleContainer} onClick={handleClick}>
+      <div
+        className={styles.circleContainer}
+        onClick={handleClick}
+        style={flexDirection === "row" ? { alignSelf: "flex-end" } : null}
+      >
         <div className={styles.selectedCircle}></div>
       </div>
       <div className={styles.dropdown}>

@@ -6,6 +6,7 @@ import { HighScores } from "../HighScores/HighScores";
 import { getCharactersList, registerImageClick } from "./api";
 
 const CircleContext = createContext(null);
+const CIRCLE_RADIUS = 25;
 const MainImage = () => {
   const [position, setPosition] = useState("");
   const [containerPos, setContainerPos] = useState(null);
@@ -17,6 +18,7 @@ const MainImage = () => {
   const [playerScore, setPlayerScore] = useState(-1);
   const [highScores, setHighScores] = useState([]);
   const [identifiedCharacters, setIdentifiedCharacters] = useState([]);
+  const [circleFlexDirection, setCircleFlexDirection] = useState("column");
 
   const containerRef = useRef(null);
   const imgRef = useRef(null);
@@ -46,9 +48,22 @@ const MainImage = () => {
       })`
     );
 
+    const dropdownHeight = 5 + 20 * characters.length;
+    let y;
+    if (
+      posY - containerPos.y + CIRCLE_RADIUS * 2 + dropdownHeight >
+      window.innerHeight
+    ) {
+      setCircleFlexDirection("row");
+      y = posY - containerPos.y - dropdownHeight + CIRCLE_RADIUS * 2;
+    } else {
+      setCircleFlexDirection("column");
+      y = posY - containerPos.y;
+    }
+
     setCirclePos({
       x: posX - containerPos.x,
-      y: posY - containerPos.y,
+      y: y,
     });
   }
 
@@ -60,10 +75,12 @@ const MainImage = () => {
         circlePos.y - imagePos.y
       );
 
-      setIdentifiedCharacters([
-        ...identifiedCharacters,
-        result.characterPosition,
-      ]);
+      if (result.characterPosition) {
+        setIdentifiedCharacters([
+          ...identifiedCharacters,
+          result.characterPosition,
+        ]);
+      }
 
       if (result.complete) {
         // TODO: have separate cases for top 10 and no top 10
@@ -97,15 +114,25 @@ const MainImage = () => {
       <CircleContext
         value={
           circlePos
-            ? { posX: circlePos.x, posY: circlePos.y }
-            : { posX: -1, posY: -1 }
+            ? {
+                posX: circlePos.x,
+                posY: circlePos.y,
+                flexDirection: circleFlexDirection,
+                handleClick: handleImageClick,
+                characters,
+                handleCharacterClick: handleCharacterClick,
+              }
+            : {
+                posX: -1,
+                posY: -1,
+                flexDirection: circleFlexDirection,
+                handleClick: handleImageClick,
+                characters,
+                handleCharacterClick: handleCharacterClick,
+              }
         }
       >
-        <CircleDropdown
-          characters={characters}
-          handleClick={handleImageClick}
-          handleCharacterClick={handleCharacterClick}
-        />
+        <CircleDropdown />
       </CircleContext>
       {identifiedCharacters && identifiedCharacters.length > 0
         ? identifiedCharacters.map((character) => {
