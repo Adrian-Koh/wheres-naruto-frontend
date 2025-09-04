@@ -7,6 +7,7 @@ import { getCharactersList, registerImageClick } from "./api";
 
 const CircleContext = createContext(null);
 const MarkerContext = createContext(null);
+const HighScoreContext = createContext(null);
 const CIRCLE_RADIUS = 25;
 const dropdownHeight = (charactersLength) => {
   return 5 + 20 * charactersLength; // margin = 5px, height of one character list item = 20px
@@ -33,7 +34,9 @@ const MainImage = () => {
       const rect = containerRef.current.getBoundingClientRect();
       setContainerPos({ x: parseInt(rect.x), y: parseInt(rect.y) });
     }
-    getCharactersList().then((characterList) => setCharacters(characterList));
+    getCharactersList()
+      .then((characterList) => setCharacters(characterList))
+      .catch((err) => setMessage(err.message));
   }, []);
 
   function initializeImageCoords() {
@@ -50,12 +53,6 @@ const MainImage = () => {
     // viewport clicked coordinates
     const posX = parseInt(e.clientX);
     const posY = parseInt(e.clientY);
-
-    setMessage(
-      `clicked on image coordinates: (${posX - imagePos.x}, ${
-        posY - imagePos.y
-      })`
-    );
 
     if (
       // posY - containerPos.y to get clicked coords in viewport,
@@ -81,35 +78,38 @@ const MainImage = () => {
 
   function handleCharacterClick(e, character) {
     const handleCharacterClickCb = async () => {
-      const result = await registerImageClick(
-        character,
-        circlePos.x - imagePos.x + containerPos.x,
-        circlePos.y - imagePos.y + containerPos.y
-      );
+      try {
+        const result = await registerImageClick(
+          character,
+          circlePos.x - imagePos.x + containerPos.x,
+          circlePos.y - imagePos.y + containerPos.y
+        );
+        if (result.characterPosition) {
+          setIdentifiedCharacters([
+            ...identifiedCharacters,
+            result.characterPosition,
+          ]);
+        }
 
-      if (result.characterPosition) {
-        setIdentifiedCharacters([
-          ...identifiedCharacters,
-          result.characterPosition,
-        ]);
+        if (result.complete) {
+          setAskForName(result.isHighScore);
+          setPlayerScore(result.score);
+          setHighScores(result.highScores);
+          setDisplayBoard(true);
+          setCharacters([]);
+        } else if (result.remainingCharacters) {
+          // correct selection
+          setCharacters(result.remainingCharacters);
+          setMessage(`You guessed ${character} correctly.`);
+        } else {
+          // wrong selection
+          setMessage(`You guessed ${character} incorrectly.`);
+        }
+
+        setCirclePos({ x: -1, y: -1 });
+      } catch (err) {
+        setMessage(err.message);
       }
-
-      if (result.complete) {
-        setAskForName(result.isHighScore);
-        setPlayerScore(result.score);
-        setHighScores(result.highScores);
-        setDisplayBoard(true);
-        setCharacters([]);
-      } else if (result.remainingCharacters) {
-        // correct selection
-        setCharacters(result.remainingCharacters);
-        setMessage(`You guessed ${character} correctly.`);
-      } else {
-        // wrong selection
-        setMessage(`You guessed ${character} incorrectly.`);
-      }
-
-      setCirclePos({ x: -1, y: -1 });
     };
     handleCharacterClickCb();
   }
@@ -167,18 +167,21 @@ const MainImage = () => {
             })
           : null}
       </MarkerContext>
-      {displayBoard ? (
-        <HighScores
-          playerScore={playerScore}
-          highScores={highScores}
-          setHighScores={setHighScores}
-          askForName={askForName}
-          setAskForName={setAskForName}
-          setDisplayBoard={setDisplayBoard}
-        />
-      ) : null}
+      <HighScoreContext
+        value={{
+          playerScore: playerScore,
+          highScores: highScores,
+          setHighScores: setHighScores,
+          askForName: askForName,
+          setAskForName: setAskForName,
+          setDisplayBoard: setDisplayBoard,
+          setMessage: setMessage,
+        }}
+      >
+        {displayBoard ? <HighScores /> : null}
+      </HighScoreContext>
     </div>
   );
 };
 
-export { MainImage, CircleContext, MarkerContext };
+export { MainImage, CircleContext, MarkerContext, HighScoreContext };

@@ -1,23 +1,30 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./HighScores.module.css";
 import { submitHighScore } from "./highscore";
-const HighScores = ({
-  playerScore,
-  highScores,
-  askForName = false,
-  setAskForName,
-  setDisplayBoard,
-  setHighScores,
-}) => {
+import { HighScoreContext } from "../MainImage/MainImage";
+const HighScores = () => {
   const [playername, setPlayername] = useState("");
+  const {
+    playerScore,
+    highScores,
+    askForName,
+    setAskForName,
+    setDisplayBoard,
+    setHighScores,
+    setMessage,
+  } = useContext(HighScoreContext);
 
   function onSubmit(e) {
     e.preventDefault();
 
     const submitHighScoreCb = async () => {
-      const highScores = await submitHighScore(playername);
-      setHighScores(highScores);
-      setAskForName(false);
+      try {
+        const highScores = await submitHighScore(playername);
+        setHighScores(highScores);
+        setAskForName(false);
+      } catch (err) {
+        setMessage(err.message);
+      }
     };
 
     submitHighScoreCb();

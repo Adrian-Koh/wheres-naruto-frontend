@@ -18,8 +18,6 @@ export const getCharactersList = async () => {
 
 export const registerImageClick = async (character, x, y) => {
   const tokenHeader = getTokenHeader();
-  console.log("sending body in registerImageClick: x=" + x + ", y=" + y);
-
   const response = await fetch(API_LINK, {
     method: "POST",
     headers: { ...tokenHeader, "Content-Type": "application/json" },
@@ -30,9 +28,6 @@ export const registerImageClick = async (character, x, y) => {
   if (!response.ok) {
     throw new Error(parsed.message);
   }
-  console.log(
-    "parsed response in registerImageClick: " + JSON.stringify(parsed)
-  );
 
   const result = parsed.result;
   if (result === "correct") {

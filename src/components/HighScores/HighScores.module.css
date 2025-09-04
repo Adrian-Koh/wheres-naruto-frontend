@@ -2,7 +2,7 @@
   position: fixed;
   top: 5%;
   left: 35%;
-  bottom: 5%;
+  max-height: 90%;
   background-color: white;
   padding: 10px;
   border-radius: 10px;
