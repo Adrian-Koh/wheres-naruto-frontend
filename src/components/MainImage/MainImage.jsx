@@ -47,11 +47,12 @@ const MainImage = () => {
   }
 
   function handleImageClick(e) {
+    // viewport clicked coordinates
     const posX = parseInt(e.clientX);
     const posY = parseInt(e.clientY);
 
     setMessage(
-      `viewport: (${posX}, ${posY}), image: (${posX - imagePos.x}, ${
+      `clicked on image coordinates: (${posX - imagePos.x}, ${
         posY - imagePos.y
       })`
     );
@@ -100,7 +101,12 @@ const MainImage = () => {
         setDisplayBoard(true);
         setCharacters([]);
       } else if (result.remainingCharacters) {
+        // correct selection
         setCharacters(result.remainingCharacters);
+        setMessage(`You guessed ${character} correctly.`);
+      } else {
+        // wrong selection
+        setMessage(`You guessed ${character} incorrectly.`);
       }
 
       setCirclePos({ x: -1, y: -1 });
