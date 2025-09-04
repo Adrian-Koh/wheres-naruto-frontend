@@ -1,6 +1,6 @@
 .mainImage {
-  height: 90%;
-  width: auto;
+  width: 900px;
+  height: auto;
 }
 
 .container {
@@ -11,11 +11,23 @@
   align-items: center;
   position: fixed;
   top: 10px;
-  left: 10%;
+  left: calc((100vw - 900px) / 2);
   padding: 0;
   margin: 0;
 }
 
-.position {
-  margin-top: 10px;
+.message {
+  margin: 10px;
+  color: orangered;
+  min-height: 1rem;
+}
+
+.title {
+  margin: 5px;
+  padding: 5px;
+  font-size: 1.5rem;
+  text-align: center;
+  border: solid 2px orangered;
+  color: orangered;
+  border-radius: 5px;
 }

@@ -13,7 +13,7 @@ const dropdownHeight = (charactersLength) => {
 };
 
 const MainImage = () => {
-  const [position, setPosition] = useState("");
+  const [message, setMessage] = useState("");
   const [containerPos, setContainerPos] = useState(null);
   const [imagePos, setImagePos] = useState(null);
   const [circlePos, setCirclePos] = useState(null);
@@ -39,9 +39,10 @@ const MainImage = () => {
   function initializeImageCoords() {
     if (imgRef.current) {
       const rect = imgRef.current.getBoundingClientRect();
-      console.log(`imagePos x:${rect.x}, y:${rect.y}`);
-
       setImagePos({ x: parseInt(rect.x), y: parseInt(rect.y) });
+      setMessage(
+        "Welcome to Where's Naruto! Click on a character and choose its name from the list. You win when you've identified all characters."
+      );
     }
   }
 
@@ -49,7 +50,7 @@ const MainImage = () => {
     const posX = parseInt(e.clientX);
     const posY = parseInt(e.clientY);
 
-    setPosition(
+    setMessage(
       `viewport: (${posX}, ${posY}), image: (${posX - imagePos.x}, ${
         posY - imagePos.y
       })`
@@ -109,7 +110,8 @@ const MainImage = () => {
 
   return (
     <div className={styles.container} ref={containerRef}>
-      <p className={styles.position}>Clicked coords: {position}</p>
+      <h1 className={styles.title}>Where's Naruto?</h1>
+      <p className={styles.message}>{message}</p>
       <img
         className={styles.mainImage}
         src="/characters.png"
@@ -165,8 +167,8 @@ const MainImage = () => {
           highScores={highScores}
           setHighScores={setHighScores}
           askForName={askForName}
-          setDisplayBoard={setDisplayBoard}
           setAskForName={setAskForName}
+          setDisplayBoard={setDisplayBoard}
         />
       ) : null}
     </div>

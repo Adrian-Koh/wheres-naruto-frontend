@@ -5,9 +5,9 @@ const HighScores = ({
   playerScore,
   highScores,
   askForName = false,
+  setAskForName,
   setDisplayBoard,
   setHighScores,
-  setAskForName,
 }) => {
   const [playername, setPlayername] = useState("");
 
