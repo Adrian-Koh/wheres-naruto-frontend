@@ -6,6 +6,7 @@ import { HighScores } from "../HighScores/HighScores";
 import { getCharactersList, registerImageClick } from "./api";
 
 const CircleContext = createContext(null);
+const MarkerContext = createContext(null);
 const CIRCLE_RADIUS = 25;
 const dropdownHeight = (charactersLength) => {
   return 5 + 20 * charactersLength; // margin = 5px, height of one character list item = 20px
@@ -145,17 +146,19 @@ const MainImage = () => {
       >
         <CircleDropdown />
       </CircleContext>
-      {identifiedCharacters && identifiedCharacters.length > 0
-        ? identifiedCharacters.map((character) => {
-            return (
-              <CharacterMarker
-                name={character.name}
-                posX={character.x - containerPos.x + imagePos.x}
-                posY={character.y - containerPos.y + imagePos.y}
-              />
-            );
-          })
-        : null}
+      <MarkerContext value={handleImageClick}>
+        {identifiedCharacters && identifiedCharacters.length > 0
+          ? identifiedCharacters.map((character) => {
+              return (
+                <CharacterMarker
+                  name={character.name}
+                  posX={character.x - containerPos.x + imagePos.x}
+                  posY={character.y - containerPos.y + imagePos.y}
+                />
+              );
+            })
+          : null}
+      </MarkerContext>
       {displayBoard ? (
         <HighScores
           playerScore={playerScore}
@@ -170,4 +173,4 @@ const MainImage = () => {
   );
 };
 
-export { MainImage, CircleContext };
+export { MainImage, CircleContext, MarkerContext };
