@@ -1,4 +1,4 @@
-const API_LINK = "http://localhost:8000/";
+const API_LINK = "https://wheres-naruto.onrender.com/";
 import { jwtDecode } from "jwt-decode";
 import { getTokenHeader } from "../token/token";
 

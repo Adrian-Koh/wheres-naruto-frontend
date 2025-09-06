@@ -1,4 +1,4 @@
-const API_LINK = "http://localhost:8000/score";
+const API_LINK = "https://wheres-naruto.onrender.com/score";
 import { getTokenHeader } from "../token/token";
 
 export const submitHighScore = async (playername) => {
